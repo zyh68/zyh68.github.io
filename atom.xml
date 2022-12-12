@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://blog.zyh.info</id>
+    <title>晚上有时间</title>
+    <updated>2022-12-12T23:40:35.090Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://blog.zyh.info"/>
+    <link rel="self" href="https://blog.zyh.info/atom.xml"/>
+    <subtitle>记录学习笔记，备忘录，内容收集整理来源于网络... ...</subtitle>
+    <logo>https://blog.zyh.info/images/avatar.png</logo>
+    <icon>https://blog.zyh.info/favicon.ico</icon>
+    <rights>All rights reserved 2022, 晚上有时间</rights>
+    <entry>
+        <title type="html"><![CDATA[消除win7系统中Edge浏览器【要获取将来的 Microsoft Edge 更新，需要 Windows 10 或更高版本】的提示]]></title>
+        <id>https://blog.zyh.info/post/xiao-chu-win7-xi-tong-zhong-edge-liu-lan-qi-yao-huo-qu-jiang-lai-de-microsoft-edge-geng-xin-xu-yao-windows-10-huo-geng-gao-ban-ben-de-ti-shi/</id>
+        <link href="https://blog.zyh.info/post/xiao-chu-win7-xi-tong-zhong-edge-liu-lan-qi-yao-huo-qu-jiang-lai-de-microsoft-edge-geng-xin-xu-yao-windows-10-huo-geng-gao-ban-ben-de-ti-shi/">
+        </link>
+        <updated>2022-12-12T12:50:39.000Z</updated>
+        <content type="html"><![CDATA[<p>打开注册表，进入如下路径</p>
+<p>HKEY_CURRENT_USER\Software\Policies\Microsoft\</p>
+<p>在Microsoft下新建一个项目Edge，再在Edge下新建一个DWORD-32位值（取名为SuppressUnsupportedOSWarning），再双击该条目，修改数据值为1（十六进制），</p>
+<p>重启电脑。</p>
+<p>chrome浏览器的消除方法同理：<br>
+进入如下路径</p>
+<p>HKEY_CURRENT_USER\Software\Policies\</p>
+<p>在Policies下新建一个项目Google，再在Google下新建一个项目为Chrome，再在Chrome下新建DWORD-32位值（取名为SuppressUnsupportedOSWarning），再双击该条目，修改数据值为1（十六进制），</p>
+<p>重启电脑。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker把镜像上传到docker hub]]></title>
+        <id>https://blog.zyh.info/post/docker-ba-jing-xiang-shang-chuan-dao-docker-hub/</id>
+        <link href="https://blog.zyh.info/post/docker-ba-jing-xiang-shang-chuan-dao-docker-hub/">
+        </link>
+        <updated>2022-12-12T12:49:38.000Z</updated>
+        <content type="html"><![CDATA[<p>查看容器,获取CONTAINER ID命令：docker ps</p>
+<p>commit一个容器命令：docker commit 获取ID 用户名/存储库:版本号</p>
+<p>登录hub帐号命令: docker login  按提示输入用户名，密码</p>
+<p>上传到hub命令: docker push 用户名/存储库:版本号</p>
+<p>等待上传成功</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一键安装Docker、docker-compose]]></title>
+        <id>https://blog.zyh.info/post/yi-jian-an-zhuang-dockerdocker-compose/</id>
+        <link href="https://blog.zyh.info/post/yi-jian-an-zhuang-dockerdocker-compose/">
+        </link>
+        <updated>2022-12-12T12:49:25.000Z</updated>
+        <content type="html"><![CDATA[<p>curl -sSL https://get.docker.com/ | sh</p>
+<p>systemctl start docker</p>
+<p>systemctl enable docker</p>
+<p>sudo curl -L &quot;https://github.com/docker/compose/releases/download/v2.13.0/docker-compose-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mi>n</mi><mi>a</mi><mi>m</mi><mi>e</mi><mo>−</mo><mi>s</mi><mo>)</mo><mo>−</mo></mrow><annotation encoding="application/x-tex">(uname -s)-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mord mathdefault">n</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mord">−</span></span></span></span>(uname -m)&quot; -o /usr/local/bin/docker-compose</p>
+<p>要安装其他版本的 Compose，请替换 2.13.0。</p>
+<p>将可执行权限应用于二进制文件：</p>
+<p>sudo chmod +x /usr/local/bin/docker-compose</p>
+<p>创建软链：</p>
+<p>sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</p>
+<p>测试是否安装成功：</p>
+<p>docker-compose --version</p>
+<p>cker-compose version 1.24.1, build 4667896b</p>
+<p>删除所有docker</p>
+<p>docker kill $(docker ps -a -q)</p>
+<p>docker rm $(docker ps -a -q)</p>
+<p>docker rmi $(docker images -q)</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[傻妞sillyGirl频繁掉线解决方法]]></title>
+        <id>https://blog.zyh.info/post/sha-niu-sillygirl-pin-fan-diao-xian-jie-jue-fang-fa/</id>
+        <link href="https://blog.zyh.info/post/sha-niu-sillygirl-pin-fan-diao-xian-jie-jue-fang-fa/">
+        </link>
+        <updated>2022-12-12T12:48:59.000Z</updated>
+        <content type="html"><![CDATA[<p>安装Screen命令</p>
+<p>yum -y install screen</p>
+<p>显示傻妞进程号</p>
+<p>ps -A|grep sillyGirl</p>
+<p>杀掉傻妞进程</p>
+<p>kill -9 xxxxxx</p>
+<p>创建一个名为sillyGirl的会话</p>
+<p>screen -S sillyGirl</p>
+<p>进入傻妞目录</p>
+<p>cd sillyGirl</p>
+<p>运行傻妞程序</p>
+<p>./sillyGirl</p>
+<p>挂机按 ctal+a+d 退出<br>
+查看screen会话</p>
+<p>screen -ls</p>
+<p>重新连接sillyGirl会话</p>
+<p>screen -r sillyGirl</p>
+<p>挂机按 ctal+a+d 退出<br>
+结束挂机会话</p>
+<p>screen -S sillyGirl -X quit</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Win11右键菜单修改]]></title>
+        <id>https://blog.zyh.info/post/win11-you-jian-cai-dan-xiu-gai/</id>
+        <link href="https://blog.zyh.info/post/win11-you-jian-cai-dan-xiu-gai/">
+        </link>
+        <updated>2022-12-12T12:48:31.000Z</updated>
+        <content type="html"><![CDATA[<p>1.WIN+R 运行 cmd 命令</p>
+<ol start="2">
+<li>运行命令：</li>
+</ol>
+<p>reg.exe add &quot;HKCU\Software\Classes\CLSID{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32&quot; /f /ve</p>
+<p>恢复运行命令 ：</p>
+<p>reg.exe delete &quot;HKCU\Software\Classes\CLSID{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32&quot; /va /f</p>
+<p>重启资源管理器：</p>
+<p>taskkill /f /im explorer.exe &amp; start explorer.exe</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[rustdesk中继服务器搭建]]></title>
+        <id>https://blog.zyh.info/post/rustdesk-zhong-ji-fu-wu-qi-da-jian/</id>
+        <link href="https://blog.zyh.info/post/rustdesk-zhong-ji-fu-wu-qi-da-jian/">
+        </link>
+        <updated>2022-12-12T12:47:55.000Z</updated>
+        <content type="html"><![CDATA[<p>官方文档如何自建中继</p>
+<p>1、docker 拉取镜像<br>
+docker image pull rustdesk/rustdesk-server<br>
+2、运行hbbs<br>
+docker run --name hbbs -p 21115:21115 -p 21116:21116 -p 21116:21116/udp -p 21118:21118 -v <code>pwd</code>:/root -it --net=host --rm rustdesk/rustdesk-server hbbs -r 自己的服务器IP<br>
+3、运行hbbr<br>
+docker run --name hbbr -p 21117:21117 -p 21119:21119 -v <code>pwd</code>:/root -it --net=host --rm rustdesk/rustdesk-server hbbr<br>
+4、配置防火墙与安全组所需端口</p>
+<p>TCP(21115, 21116, 21117, 21118, 21119)</p>
+<p>UDP(21116)</p>
+<p>如果不需要网页客户端（21118，21119）支持，对应端口可以不开。</p>
+<p>开放端口的tcp传输限制</p>
+<p>firewall-cmd --zone=public --add-port=21115-21119/tcp --permanent</p>
+<p>permanent永久生效，没有此参数重启后失效，21115-21119批量开启区间内的端口TCP传输</p>
+<p>开放端口的udp传输限制</p>
+<p>firewall-cmd --zone=public --add-port=21116/udp --permanent</p>
+<p>刷新防火墙配置</p>
+<p>firewall-cmd --reload<br>
+6、测试网络连通性，打开其他终端，使用telnet测试网络连通性<br>
+telnet xxx.xxx.xxx.xxx 21116</p>
+<p>7、在客户端设置“ ID/中继服务器”</p>
+<p>ID服务器：服务器IP</p>
+<p>中继服务器：IP:21116</p>
+<p>API服务器：http://服务器IP</p>
+<p>KEY：KEY</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CloudFlare Serverless Worker反代Telegram通知]]></title>
+        <id>https://blog.zyh.info/post/cloudflare-serverless-worker-fan-dai-telegram-tong-zhi/</id>
+        <link href="https://blog.zyh.info/post/cloudflare-serverless-worker-fan-dai-telegram-tong-zhi/">
+        </link>
+        <updated>2022-12-12T12:47:06.000Z</updated>
+        <content type="html"><![CDATA[<p>版本1 <br>
+const whitelist = [&quot;/bot888888888:&quot;];<br>
+const tg_host = &quot;api.telegram.org&quot;;</p>
+<p>addEventListener('fetch', event =&gt; {<br>
+event.respondWith(handleRequest(event.request))<br>
+})</p>
+<p>function validate(path) {<br>
+for (var i = 0; i &lt; whitelist.length; i++) {<br>
+if (path.startsWith(whitelist[i]))<br>
+return true;<br>
+}<br>
+return false;<br>
+}</p>
+<p>async function handleRequest(request) {<br>
+var u = new URL(request.url);<br>
+u.host = tg_host;<br>
+if (!validate(u.pathname))<br>
+return new Response('Unauthorized', {<br>
+status: 403<br>
+});<br>
+var req = new Request(u, {<br>
+method: request.method,<br>
+headers: request.headers,<br>
+body: request.body<br>
+});<br>
+const result = await fetch(req);<br>
+return result;<br>
+}<br>
+版本2</p>
+<p>const OPT = {<br>
+botid : 'bot888888888:888888888',//bot id<br>
+chatid:'-1001XXXXXX',//chatid<br>
+}</p>
+<p>addEventListener('fetch', event =&gt; {<br>
+event.respondWith(handleRequest(event.request))<br>
+})</p>
+<p>/**</p>
+<ul>
+<li>
+<p>Respond to the request</p>
+</li>
+<li>
+<p>@param {Request} request<br>
+*/<br>
+async function handleRequest(request) {<br>
+// msg text<br>
+let text = &quot;empty_text&quot;;</p>
+<p>if (request.method === &quot;POST&quot;) {<br>
+const ret = await readRequestBody(request);<br>
+text = ret || text;<br>
+// const requestString = JSON.stringify(requestObject);<br>
+//console.log(params)<br>
+} else if (request.method === &quot;GET&quot;) {<br>
+let url = new URL(request.url);<br>
+text = url.searchParams.get('text') || text;<br>
+}</p>
+<p>console.log(text)<br>
+// https://api.telegram.org/bot888888888/sendMessage?chat_id=YYYYYY&amp;text=#NEZHA#<br>
+//发送消息<br>
+return fetch(&quot;https://api.telegram.org/&quot;+OPT.botid+&quot;/sendMessage?chat_id=&quot;+OPT.chatid+&quot;&amp;text=&quot;+text,{<br>
+method:'get'<br>
+});<br>
+}</p>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>readRequestBody reads in the incoming request body</li>
+<li>Use await readRequestBody(..) in an async function to get the string</li>
+<li>@param {Request} request the incoming request to read from<br>
+*/<br>
+async function readRequestBody(request) {<br>
+const { headers } = request;<br>
+const contentType = headers.get(&quot;content-type&quot;) || &quot;&quot;<br>
+console.log(contentType);</li>
+</ul>
+<p>if (contentType.includes(&quot;application/json&quot;)) {<br>
+console.log(1);<br>
+let params = await request.json();<br>
+console.log(params);<br>
+return params['text'];<br>
+//return JSON.stringify(await request.json())<br>
+}<br>
+else if (contentType.includes(&quot;application/text&quot;) || contentType.includes(&quot;text/html&quot;)|| contentType.includes(&quot;application/x-www-form-urlencoded&quot;)) {<br>
+console.log(2);<br>
+//console.log(typeof(await request.text()));<br>
+let params = new URLSearchParams(await request.text());<br>
+return params.get('text');<br>
+//return await request.text()<br>
+}<br>
+else if (contentType.includes(&quot;form&quot;)) {<br>
+console.log(4);<br>
+const formData = await request.formData()<br>
+const params = {}<br>
+for (const entry of formData.entries()) {<br>
+params[entry[0]] = entry[1]<br>
+}<br>
+return params.get('text');<br>
+//return JSON.stringify(body)<br>
+} else return &quot;&quot;;<br>
+}</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[防范ssh远程暴力破解]]></title>
+        <id>https://blog.zyh.info/post/fang-fan-ssh-yuan-cheng-bao-li-po-jie/</id>
+        <link href="https://blog.zyh.info/post/fang-fan-ssh-yuan-cheng-bao-li-po-jie/">
+        </link>
+        <updated>2022-12-12T12:46:34.000Z</updated>
+        <content type="html"><![CDATA[<p>环境Centos7</p>
+<p>是否被暴力破解?</p>
+<p>last</p>
+<p>用于显示用户最近登录信息,可以看到哪些用户在哪个时间访问登录了机器,同时查看ip是不是自己的常用地址</p>
+<p>lastb</p>
+<p>用于列出登入系统失败的用户相关信息,通过查看访问时间间隔和相关账户分析是否正在暴力破解</p>
+<p>修改配置文件</p>
+<p>1、禁止所有用户使用密码登录，只允许密钥登录</p>
+<p>sed -i s/&quot;PasswordAuthentication yes&quot;/&quot;PasswordAuthentication no&quot;/ /etc/ssh/sshd_config</p>
+<p>注意：需要先生成密钥，配置测试没有问题再禁止所有用户使用密码登录</p>
+<p>2、自定义一个远程登录端口</p>
+<p>sed -i '/Port 22/i\Port 1234' /etc/ssh/sshd_config</p>
+<p>3、重启服务</p>
+<p>service sshd restart<br>
+systemctl restart sshd.service</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ubuntu 20.04使用x-windows加xrdp的远程桌面]]></title>
+        <id>https://blog.zyh.info/post/ubuntu-2004-shi-yong-x-windows-jia-xrdp-de-yuan-cheng-zhuo-mian/</id>
+        <link href="https://blog.zyh.info/post/ubuntu-2004-shi-yong-x-windows-jia-xrdp-de-yuan-cheng-zhuo-mian/">
+        </link>
+        <updated>2022-12-12T12:45:16.000Z</updated>
+        <content type="html"><![CDATA[<p>首先是登入shell安装x-windows的基础服务</p>
+<p>apt-get install x-window-system-core</p>
+<p>待安装完成后，继续安装ubuntu桌面服务。</p>
+<p>apt-get install ubuntu-desktop</p>
+<p>最后安装xrdp</p>
+<p>apt-get install tightvncserver xrdp</p>
+<p>安装完成，设置一下root的密码</p>
+<p>passwd root</p>
+<p>按提示完成密码设置完成即可。</p>
+<p>如果有开启防火墙，记得在开放3389的端口。</p>
+<p>使用windows自带的远程桌面功能就可以远程访问了！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[备份Docker镜像到DockerHub上]]></title>
+        <id>https://blog.zyh.info/post/bei-fen-docker-jing-xiang-dao-dockerhub-shang/</id>
+        <link href="https://blog.zyh.info/post/bei-fen-docker-jing-xiang-dao-dockerhub-shang/">
+        </link>
+        <updated>2022-12-12T12:44:32.000Z</updated>
+        <content type="html"><![CDATA[<p>1.首先注册一个DockerHub账号 注册地址:DockerHub</p>
+<p>2.登录帐号 使用docker login -u 注册的账号，输入密码显示Login Succeeded表示登录成功</p>
+<p>3.通过运行 docker images 命令来查看Docker镜像。</p>
+<p>4.镜像构建及提交<br>
+使用docker tag 镜像id 新名称:版本号命令修改镜像名称与版本信息</p>
+<p>docker tag 镜像id 你的账号/新名称:版本号</p>
+<p>使用docker push 你的账号/镜像名称:版本号 提交镜像</p>
+<p>docker push 你的账号/镜像名称:版本号 #就是你刚才构建的名称版本</p>
+<p>然后你就成功提交到了DockerHub上，可以登录WEB端查看及修改。</p>
+<p>拉去镜像</p>
+<p>使用docker pull 命令即可拉去镜像</p>
+<p>docker pull 你的账号/镜像名称:版本号</p>
+<p>现在就可以部署使用了。</p>
+]]></content>
+    </entry>
+</feed>
