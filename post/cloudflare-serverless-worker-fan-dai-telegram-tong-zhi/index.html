@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>CloudFlare Serverless Worker反代Telegram通知 | 学习笔记</title>
+<meta name="description" content="记录学习笔记，备忘录，内容收集整理来源于网络... ...">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://blog.zyh.info/favicon.ico?v=1684021956495">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://blog.zyh.info/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://blog.zyh.info">
+        <img class="avatar" src="https://blog.zyh.info/images/avatar.png?v=1684021956495" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://blog.zyh.info">
+        <h1 class="site-title">学习笔记</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">CloudFlare Serverless Worker反代Telegram通知</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-12-12</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p>版本1 <br>
+const whitelist = [&quot;/bot888888888:&quot;];<br>
+const tg_host = &quot;api.telegram.org&quot;;</p>
+<p>addEventListener('fetch', event =&gt; {<br>
+event.respondWith(handleRequest(event.request))<br>
+})</p>
+<p>function validate(path) {<br>
+for (var i = 0; i &lt; whitelist.length; i++) {<br>
+if (path.startsWith(whitelist[i]))<br>
+return true;<br>
+}<br>
+return false;<br>
+}</p>
+<p>async function handleRequest(request) {<br>
+var u = new URL(request.url);<br>
+u.host = tg_host;<br>
+if (!validate(u.pathname))<br>
+return new Response('Unauthorized', {<br>
+status: 403<br>
+});<br>
+var req = new Request(u, {<br>
+method: request.method,<br>
+headers: request.headers,<br>
+body: request.body<br>
+});<br>
+const result = await fetch(req);<br>
+return result;<br>
+}<br>
+版本2</p>
+<p>const OPT = {<br>
+botid : 'bot888888888:888888888',//bot id<br>
+chatid:'-1001XXXXXX',//chatid<br>
+}</p>
+<p>addEventListener('fetch', event =&gt; {<br>
+event.respondWith(handleRequest(event.request))<br>
+})</p>
+<p>/**</p>
+<ul>
+<li>
+<p>Respond to the request</p>
+</li>
+<li>
+<p>@param {Request} request<br>
+*/<br>
+async function handleRequest(request) {<br>
+// msg text<br>
+let text = &quot;empty_text&quot;;</p>
+<p>if (request.method === &quot;POST&quot;) {<br>
+const ret = await readRequestBody(request);<br>
+text = ret || text;<br>
+// const requestString = JSON.stringify(requestObject);<br>
+//console.log(params)<br>
+} else if (request.method === &quot;GET&quot;) {<br>
+let url = new URL(request.url);<br>
+text = url.searchParams.get('text') || text;<br>
+}</p>
+<p>console.log(text)<br>
+// https://api.telegram.org/bot888888888/sendMessage?chat_id=YYYYYY&amp;text=#NEZHA#<br>
+//发送消息<br>
+return fetch(&quot;https://api.telegram.org/&quot;+OPT.botid+&quot;/sendMessage?chat_id=&quot;+OPT.chatid+&quot;&amp;text=&quot;+text,{<br>
+method:'get'<br>
+});<br>
+}</p>
+</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>readRequestBody reads in the incoming request body</li>
+<li>Use await readRequestBody(..) in an async function to get the string</li>
+<li>@param {Request} request the incoming request to read from<br>
+*/<br>
+async function readRequestBody(request) {<br>
+const { headers } = request;<br>
+const contentType = headers.get(&quot;content-type&quot;) || &quot;&quot;<br>
+console.log(contentType);</li>
+</ul>
+<p>if (contentType.includes(&quot;application/json&quot;)) {<br>
+console.log(1);<br>
+let params = await request.json();<br>
+console.log(params);<br>
+return params['text'];<br>
+//return JSON.stringify(await request.json())<br>
+}<br>
+else if (contentType.includes(&quot;application/text&quot;) || contentType.includes(&quot;text/html&quot;)|| contentType.includes(&quot;application/x-www-form-urlencoded&quot;)) {<br>
+console.log(2);<br>
+//console.log(typeof(await request.text()));<br>
+let params = new URLSearchParams(await request.text());<br>
+return params.get('text');<br>
+//return await request.text()<br>
+}<br>
+else if (contentType.includes(&quot;form&quot;)) {<br>
+console.log(4);<br>
+const formData = await request.formData()<br>
+const params = {}<br>
+for (const entry of formData.entries()) {<br>
+params[entry[0]] = entry[1]<br>
+}<br>
+return params.get('text');<br>
+//return JSON.stringify(body)<br>
+} else return &quot;&quot;;<br>
+}</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://blog.zyh.info/post/fang-fan-ssh-yuan-cheng-bao-li-po-jie/">
+              <h3 class="post-title">
+                下一篇：防范ssh远程暴力破解
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">记录学习笔记，备忘录，内容收集整理来源于网络... ...</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://blog.zyh.info" target="_blank">Gridea</a> | <a class="rss" href="https://blog.zyh.info/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '7f427a11dfeb0da43844',
+        clientSecret: 'e91ea1db527a7673e46eebfdaf0785d29cddae9e',
+        repo: 'gitalk-comments',
+        owner: 'zyh68',
+        admin: ['zyh68'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

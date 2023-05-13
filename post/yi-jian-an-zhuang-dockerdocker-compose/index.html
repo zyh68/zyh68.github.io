@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>一键安装Docker、docker-compose | 学习笔记</title>
+<meta name="description" content="记录学习笔记，备忘录，内容收集整理来源于网络... ...">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://blog.zyh.info/favicon.ico?v=1684021956495">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://blog.zyh.info/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://blog.zyh.info">
+        <img class="avatar" src="https://blog.zyh.info/images/avatar.png?v=1684021956495" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://blog.zyh.info">
+        <h1 class="site-title">学习笔记</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">一键安装Docker、docker-compose</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-12-12</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p>curl -sSL https://get.docker.com/ | sh</p>
+<p>systemctl start docker</p>
+<p>systemctl enable docker</p>
+<p>sudo curl -L &quot;https://github.com/docker/compose/releases/download/v2.13.0/docker-compose-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>u</mi><mi>n</mi><mi>a</mi><mi>m</mi><mi>e</mi><mo>−</mo><mi>s</mi><mo>)</mo><mo>−</mo></mrow><annotation encoding="application/x-tex">(uname -s)-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mord mathdefault">n</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mord">−</span></span></span></span>(uname -m)&quot; -o /usr/local/bin/docker-compose</p>
+<p>要安装其他版本的 Compose，请替换 2.13.0。</p>
+<p>将可执行权限应用于二进制文件：</p>
+<p>sudo chmod +x /usr/local/bin/docker-compose</p>
+<p>创建软链：</p>
+<p>sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose</p>
+<p>测试是否安装成功：</p>
+<p>docker-compose --version</p>
+<p>cker-compose version 1.24.1, build 4667896b</p>
+<p>删除所有docker</p>
+<p>docker kill $(docker ps -a -q)</p>
+<p>docker rm $(docker ps -a -q)</p>
+<p>docker rmi $(docker images -q)</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://blog.zyh.info/post/sha-niu-sillygirl-pin-fan-diao-xian-jie-jue-fang-fa/">
+              <h3 class="post-title">
+                下一篇：傻妞sillyGirl频繁掉线解决方法
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">记录学习笔记，备忘录，内容收集整理来源于网络... ...</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://blog.zyh.info" target="_blank">Gridea</a> | <a class="rss" href="https://blog.zyh.info/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '7f427a11dfeb0da43844',
+        clientSecret: 'e91ea1db527a7673e46eebfdaf0785d29cddae9e',
+        repo: 'gitalk-comments',
+        owner: 'zyh68',
+        admin: ['zyh68'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

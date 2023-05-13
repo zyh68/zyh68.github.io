@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>-bash: ./start.sh: /bin/sh^M: 坏的解释器: 没有那个文件或目录 | 学习笔记</title>
+<meta name="description" content="记录学习笔记，备忘录，内容收集整理来源于网络... ...">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://blog.zyh.info/favicon.ico?v=1684021956495">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://blog.zyh.info/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://blog.zyh.info">
+        <img class="avatar" src="https://blog.zyh.info/images/avatar.png?v=1684021956495" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://blog.zyh.info">
+        <h1 class="site-title">学习笔记</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">-bash: ./start.sh: /bin/sh^M: 坏的解释器: 没有那个文件或目录</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2023-04-12</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p>这个错误通常是由于脚本文件的换行符格式不正确导致的。在Windows中，换行符是\r\n，而在Linux中，换行符是\n。当您在Windows上编写脚本并将其复制到Linux上时，可能会出现这个错误。</p>
+<p>要解决这个问题，您可以使用文本编辑器将脚本的换行符从\r\n改为\n。</p>
+<p>可以用sed命令进行全局替换<br>
+sed 's/\r//' -i start.sh</p>
+<p>也可以用 vim 来重新编辑脚本，使用vim首先查看文件格式：<br>
+在底行模式下输入 set ff，回车可以看到文件格式为dos。<br>
+修改文件格式为 unix即可。<br>
+底行模式下输入 set ff=unix</p>
+<p>您也可以使用dos2unix命令将脚本的换行符转换为Linux格式。在Linux终端中运行以下命令即可：</p>
+<p>dos2unix start.sh<br>
+这个命令将会将start.sh文件中的换行符从Windows格式转换为Linux格式。转换完成后，您应该能够成功运行脚本了。</p>
+<p>-bash: dos2unix: 未找到命令</p>
+<p>如果您在Linux终端中运行dos2unix命令时出现“未找到命令”的错误，这意味着您的系统上没有安装dos2unix工具。</p>
+<p>要解决这个问题，您可以使用包管理器安装dos2unix工具。以下是一些常见的Linux发行版和包管理器的安装方法：</p>
+<p>Ubuntu / Debian：在终端中运行 sudo apt-get install dos2unix<br>
+CentOS / Fedora：在终端中运行 sudo yum install dos2unix<br>
+Arch Linux：在终端中运行 sudo pacman -S dos2unix<br>
+macOS：使用Homebrew，在终端中运行 brew install dos2unix<br>
+安装完成后，重新运行dos2unix命令即可。如果仍然遇到问题，请检查您的PATH环境变量是否包含dos2unix命令的路径。</p>
+<p>dos2unix: converting file start.sh to Unix format ...</p>
+<p>这个输出表示dos2unix命令已经成功将start.sh文件的换行符从Windows格式转换为Unix格式。现在，您应该能够在Linux终端中运行start.sh脚本了。如果您仍然遇到问题，请确保脚本文件具有可执行权限。您可以使用以下命令添加可执行权限：</p>
+<p>chmod +x start.sh<br>
+这个命令将会将start.sh文件设置为可执行。现在，您可以在终端中运行./start.sh命令来执行脚本了。</p>
+<p>另一个方法<br>
+用sed命令进行全局替换</p>
+<p>sed 's/\r//' -i start.sh<br>
+也可以用 vim 来重新编辑脚本，使用vim首先查看文件格式：</p>
+<p>在底行模式下输入 set ff，回车可以看到文件格式为dos。</p>
+<p>修改文件格式为 unix即可。<br>
+底行模式下输入 set ff=unix</p>
+<p>保存退出即可。</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://blog.zyh.info/post/linuxssh-mi-yao-chuang-jian-ji-deng-lu/">
+              <h3 class="post-title">
+                下一篇：Linux,SSH密钥创建及登录
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">记录学习笔记，备忘录，内容收集整理来源于网络... ...</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://blog.zyh.info" target="_blank">Gridea</a> | <a class="rss" href="https://blog.zyh.info/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '7f427a11dfeb0da43844',
+        clientSecret: 'e91ea1db527a7673e46eebfdaf0785d29cddae9e',
+        repo: 'gitalk-comments',
+        owner: 'zyh68',
+        admin: ['zyh68'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

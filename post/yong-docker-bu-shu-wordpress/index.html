@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>用 Docker 部署 WordPress | 学习笔记</title>
+<meta name="description" content="记录学习笔记，备忘录，内容收集整理来源于网络... ...">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://blog.zyh.info/favicon.ico?v=1684021956495">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://blog.zyh.info/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://blog.zyh.info">
+        <img class="avatar" src="https://blog.zyh.info/images/avatar.png?v=1684021956495" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://blog.zyh.info">
+        <h1 class="site-title">学习笔记</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">用 Docker 部署 WordPress</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2023-04-19</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p>要在 ARM64 架构上使用 Docker 部署 WordPress，您需要按照以下步骤进行操作：</p>
+<p>安装 Docker 和 Docker Compose。您可以在 Docker 官网上下载并安装 Docker，Docker Compose 通常会随 Docker 一起安装。</p>
+<p>创建一个新的目录，用于存储 WordPress 和 MySQL 的 Docker 配置文件。</p>
+<p>在该目录中创建一个名为 docker-compose.yml 的文件，并将以下内容复制要在 ARM64 架构上使用 Docker 部署 WordPress，您可以按照以下步骤进行操作：</p>
+<p>安装 Docker 和 Docker Compose。您可以在 Docker 官网上下载并安装 Docker，Docker Compose 通常会随 Docker 一起安装。</p>
+<p>创建一个新的目录，用于存储 WordPress 和 MySQL 的 Docker 配置文件。</p>
+<p>在该目录中创建一个名为 docker-compose.yml 的文件，并将以下内容复制到该文件中：</p>
+<p>version: '3'</p>
+<p>services:<br>
+db:<br>
+image: mysql:latest<br>
+volumes:<br>
+- db_data:/var/lib/mysql<br>
+restart: always<br>
+environment:<br>
+MYSQL_ROOT_PASSWORD: your_mysql_root_password<br>
+MYSQL_DATABASE: your_mysql_database_name<br>
+MYSQL_USER: your_mysql_user<br>
+MYSQL_PASSWORD: your_mysql_password</p>
+<p>wordpress:<br>
+depends_on:<br>
+- db<br>
+image: wordpress:latest<br>
+ports:<br>
+- &quot;8000:80&quot;<br>
+restart: always<br>
+environment:<br>
+WORDPRESS_DB_HOST: db:3306<br>
+WORDPRESS_DB_USER: your_mysql_user<br>
+WORDPRESS_DB_PASSWORD: your_mysql_password<br>
+WORDPRESS_DB_NAME: your_mysql_database_name<br>
+volumes:<br>
+db_data:<br>
+在上面的配置文件中，将 your_mysql_root_password、your_mysql_database_name、your_mysql_user 和 your_mysql_password 替换为您自己的 MySQL 根密码、数据库名称、用户名和密码。</p>
+<p>在终端中进入该目录，并运行以下命令以启动 Docker 容器：</p>
+<p>docker-compose up -d<br>
+等待 Docker 容器启动完成后，您可以在浏览器中访问 http://localhost:8000 来访问 WordPress 站点。</p>
+<p>如果您想将 WordPress 和 MySQL 的数据映射到本机目录，而不是存储在 Docker 容器中，您可以按照以下步骤进行操作：</p>
+<p>在本机上创建一个目录，用于存储 WordPress 和 MySQL 的数据。例如，您可以在本机上创建一个名为 wordpress_data 的目录。</p>
+<p>在 docker-compose.yml 文件中，将 WordPress 和 MySQL 的数据卷映射到本机目录。例如，您可以将以下内容添加到 docker-compose.yml 文件中：</p>
+<p>version: '3'</p>
+<p>services:<br>
+db:<br>
+image: mysql:latest<br>
+volumes:<br>
+- ./mysql_data:/var/lib/mysql<br>
+restart: always<br>
+environment:<br>
+MYSQL_ROOT_PASSWORD: your_mysql_root_password<br>
+MYSQL_DATABASE: your_mysql_database_name<br>
+MYSQL_USER: your_mysql_user<br>
+MYSQL_PASSWORD: your_mysql_password</p>
+<p>wordpress:<br>
+depends_on:<br>
+- db<br>
+image: wordpress:latest<br>
+ports:<br>
+- &quot;8000:80&quot;<br>
+restart: always<br>
+environment:<br>
+WORDPRESS_DB_HOST: db:3306<br>
+WORDPRESS_DB_USER: your_mysql_user<br>
+WORDPRESS_DB_PASSWORD: your_mysql_password<br>
+WORDPRESS_DB_NAME: your_mysql_database_name<br>
+volumes:<br>
+- ./wordpress_data:/var/www/html<br>
+volumes:<br>
+mysql_data:<br>
+wordpress_data:<br>
+在上面的配置文件中，./mysql_data 和 ./wordpress_data 分别是本机上存储 MySQL 和 WordPress 数据的目录。这些目录将映射到 Docker 容器中的 /var/lib/mysql 和 /var/www/html 目录。</p>
+<p>在终端中进入包含 docker-compose.yml 文件的目录，并运行以下命令以启动 Docker 容器：<br>
+docker-compose up -d<br>
+现在，WordPress 和 MySQL 的数据将存储在本机目录中，而不是存储在 Docker 容器中。如果您需要备份或恢复数据，只需备份或恢复本机目录即可。</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://blog.zyh.info/post/-bash-startsh-binshm-pi-de-jie-shi-qi-mei-you-na-ge-wen-jian-huo-mu-lu/">
+              <h3 class="post-title">
+                下一篇：-bash: ./start.sh: /bin/sh^M: 坏的解释器: 没有那个文件或目录
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">记录学习笔记，备忘录，内容收集整理来源于网络... ...</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://blog.zyh.info" target="_blank">Gridea</a> | <a class="rss" href="https://blog.zyh.info/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '7f427a11dfeb0da43844',
+        clientSecret: 'e91ea1db527a7673e46eebfdaf0785d29cddae9e',
+        repo: 'gitalk-comments',
+        owner: 'zyh68',
+        admin: ['zyh68'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

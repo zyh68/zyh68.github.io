@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>使用Watch­tower自动更新Docker镜像与容器 | 学习笔记</title>
+<meta name="description" content="记录学习笔记，备忘录，内容收集整理来源于网络... ...">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://blog.zyh.info/favicon.ico?v=1684021956495">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://blog.zyh.info/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://blog.zyh.info">
+        <img class="avatar" src="https://blog.zyh.info/images/avatar.png?v=1684021956495" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://blog.zyh.info">
+        <h1 class="site-title">学习笔记</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">使用Watch­tower自动更新Docker镜像与容器</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2023-04-06</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p>自动清除旧镜像</p>
+<p>docker run -d <br>
+--name watchtower <br>
+--restart unless-stopped <br>
+-v /var/run/docker.sock:/var/run/docker.sock <br>
+containrrr/watchtower <br>
+--cleanup<br>
+--cleanup 选项可以简写为 -c：</p>
+<p>docker run -d <br>
+--name watchtower <br>
+--restart unless-stopped <br>
+-v /var/run/docker.sock:/var/run/docker.sock <br>
+containrrr/watchtower -c<br>
+选择性自动更新</p>
+<p>假设我们只想更新 nginx、redis 这两个容器，我们可以把容器名称追加到启动命令的最后面，就像下面这个例子：</p>
+<p>docker run -d <br>
+--name watchtower <br>
+--restart unless-stopped <br>
+-v /var/run/docker.sock:/var/run/docker.sock <br>
+containrrr/watchtower -c <br>
+nginx redis</p>
+<p>把需要更新的容器名称写在启动命令中不利于管理，于是建立一个更新列表文件。</p>
+<p>$ cat ~/.watchtower.list<br>
+aria2-pro<br>
+unlockmusic<br>
+mtg<br>
+...<br>
+通过变量的方式去调用这个列表：</p>
+<p>docker run -d <br>
+--name watchtower <br>
+--restart unless-stopped <br>
+-v /var/run/docker.sock:/var/run/docker.sock <br>
+containrrr/watchtower -c <br>
+$(cat ~/.watchtower.list)<br>
+这样只需要调整列表后删除 Watch­tower 容器并重新执行上面的命令重新启动 Watch­tower 即可。</p>
+<p>设置自动更新检查频率</p>
+<p>--interval, -i - 设置更新检测时间间隔，单位为秒。比如每隔 1 个小时检查一次更新：<br>
+docker run -d <br>
+--name watchtower <br>
+--restart unless-stopped <br>
+-v /var/run/docker.sock:/var/run/docker.sock <br>
+containrrr/watchtower -c <br>
+--interval 3600<br>
+--schedule, -s - 设置定时检测更新时间。格式为 6 字段 Cron 表达式，而非传统的 5 个字段。比如每天凌晨 2 点检查一次更新：<br>
+docker run -d <br>
+--name watchtower <br>
+--restart unless-stopped <br>
+-v /var/run/docker.sock:/var/run/docker.sock <br>
+containrrr/watchtower -c <br>
+--schedule &quot;0 2 * * * *&quot;</p>
+<p>手动更新</p>
+<p>docker run --rm <br>
+-v /var/run/docker.sock:/var/run/docker.sock <br>
+containrrr/watchtower -c <br>
+--run-once <br>
+aria2-pro<br>
+--run-once 可以简写为 -R：</p>
+<p>docker run --rm <br>
+-v /var/run/docker.sock:/var/run/docker.sock <br>
+containrrr/watchtower -cR <br>
+aria2-pro</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://blog.zyh.info/post/centos7-duan-kou-bei-zhan-yong-de-jie-jue-ban-fa/">
+              <h3 class="post-title">
+                下一篇：CentOS7端口被占用的解决办法
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">记录学习笔记，备忘录，内容收集整理来源于网络... ...</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://blog.zyh.info" target="_blank">Gridea</a> | <a class="rss" href="https://blog.zyh.info/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '7f427a11dfeb0da43844',
+        clientSecret: 'e91ea1db527a7673e46eebfdaf0785d29cddae9e',
+        repo: 'gitalk-comments',
+        owner: 'zyh68',
+        admin: ['zyh68'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>rustdesk中继服务器搭建 | 学习笔记</title>
+<meta name="description" content="记录学习笔记，备忘录，内容收集整理来源于网络... ...">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://blog.zyh.info/favicon.ico?v=1684021956495">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://blog.zyh.info/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://blog.zyh.info">
+        <img class="avatar" src="https://blog.zyh.info/images/avatar.png?v=1684021956495" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://blog.zyh.info">
+        <h1 class="site-title">学习笔记</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">rustdesk中继服务器搭建</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-12-12</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p>官方文档如何自建中继</p>
+<p>1、docker 拉取镜像<br>
+docker image pull rustdesk/rustdesk-server<br>
+2、运行hbbs<br>
+docker run --name hbbs -p 21115:21115 -p 21116:21116 -p 21116:21116/udp -p 21118:21118 -v <code>pwd</code>:/root -it --net=host --rm rustdesk/rustdesk-server hbbs -r 自己的服务器IP<br>
+3、运行hbbr<br>
+docker run --name hbbr -p 21117:21117 -p 21119:21119 -v <code>pwd</code>:/root -it --net=host --rm rustdesk/rustdesk-server hbbr<br>
+4、配置防火墙与安全组所需端口</p>
+<p>TCP(21115, 21116, 21117, 21118, 21119)</p>
+<p>UDP(21116)</p>
+<p>如果不需要网页客户端（21118，21119）支持，对应端口可以不开。</p>
+<p>开放端口的tcp传输限制</p>
+<p>firewall-cmd --zone=public --add-port=21115-21119/tcp --permanent</p>
+<p>permanent永久生效，没有此参数重启后失效，21115-21119批量开启区间内的端口TCP传输</p>
+<p>开放端口的udp传输限制</p>
+<p>firewall-cmd --zone=public --add-port=21116/udp --permanent</p>
+<p>刷新防火墙配置</p>
+<p>firewall-cmd --reload<br>
+6、测试网络连通性，打开其他终端，使用telnet测试网络连通性<br>
+telnet xxx.xxx.xxx.xxx 21116</p>
+<p>7、在客户端设置“ ID/中继服务器”</p>
+<p>ID服务器：服务器IP</p>
+<p>中继服务器：IP:21116</p>
+<p>API服务器：http://服务器IP</p>
+<p>KEY：KEY</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://blog.zyh.info/post/cloudflare-serverless-worker-fan-dai-telegram-tong-zhi/">
+              <h3 class="post-title">
+                下一篇：CloudFlare Serverless Worker反代Telegram通知
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">记录学习笔记，备忘录，内容收集整理来源于网络... ...</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://blog.zyh.info" target="_blank">Gridea</a> | <a class="rss" href="https://blog.zyh.info/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '7f427a11dfeb0da43844',
+        clientSecret: 'e91ea1db527a7673e46eebfdaf0785d29cddae9e',
+        repo: 'gitalk-comments',
+        owner: 'zyh68',
+        admin: ['zyh68'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
